@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/bence/Documents/alkprog/graf/build",
+  "command": "/usr/bin/g++-7    -g   -o CMakeFiles/CMake_Test.dir/main.cpp.o -c /home/bence/Documents/alkprog/graf/main.cpp",
+  "file": "/home/bence/Documents/alkprog/graf/main.cpp"
+}
+]

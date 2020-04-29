@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bence/Documents/alkprog/graf/graf.h
+iostream
+-
+matrix.h
+/home/bence/Documents/alkprog/graf/matrix.h
+
+/home/bence/Documents/alkprog/graf/main.cpp
+iostream
+-
+graf.h
+/home/bence/Documents/alkprog/graf/graf.h
+
+/home/bence/Documents/alkprog/graf/matrix.h
+vector
+-
+algorithm
+-
+iostream
+-
+numeric
+-
+initializer_list
+-
+cmath
+-
+ostream
+-
+sstream
+-
+fstream
+-
+string
+-
+istream
+-
+
