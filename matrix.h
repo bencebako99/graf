@@ -227,7 +227,7 @@ Matrix<T>&& operator*(Matrix<T> const& A, Matrix<T> && B){
 
 template <typename T>
  ostream& operator<<(std::ostream& o, Matrix<T> const& M){
-        o << "dim = " << M.N << "x" << M.N << endl;
+        o << M.N << endl;
         for(int i=0; i<M.N; i++){
             for(int j=0; j<M.N ; j++){
                 o << M[i*M.N+j] << " ";
@@ -249,7 +249,7 @@ istream& operator>>(std::istream& s, Matrix<T>& M){
             getline(s, tmp);
             stringstream ss1(tmp);
             for(int j=0; j<M.N; j++){
-                getline(ss1, tmp, ' ');  M.data.push_back(stod(tmp));
+                getline(ss1, tmp, ' ');  M.data.push_back(stoi(tmp));
             }
         }
     }
