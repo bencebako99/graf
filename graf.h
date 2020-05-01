@@ -106,8 +106,10 @@ Graf<T> remove_vertex(Graf<T> const& G, int x){
     return G1;
 }
 
+
+//Finding shortest path between two nodes
 template <typename T>
-bool BFS(Graf<T> G, int src, int dest, int pred[], int dist[]){
+bool BFS(Graf<T> const& G, int src, int dest, int pred[], int dist[]){
     list<int> queue;
     bool visited[G.M.N];
     for (int i = 0; i < G.M.N; i++) { 
@@ -138,7 +140,7 @@ bool BFS(Graf<T> G, int src, int dest, int pred[], int dist[]){
 }
 
 template <typename T>
-void ShortestPath(Graf<T> G, int src, int dest){
+void ShortestPath(Graf<T> const& G, int src, int dest){
     int pred[G.M.N];
     T dist[G.M.N]; 
     if (BFS(G, src, dest, pred, dist) == false) 
@@ -162,5 +164,17 @@ void ShortestPath(Graf<T> G, int src, int dest){
 }
 
 
+//Checking if graph is full
+template <typename T>
+bool isfull(Graf<T> const& G){
+    for(int i=0; i< G.M.N; i++){
+        int u=0;
+        for(int j=0; j< G.M.N; j++)
+            if(G.M(i,j)!=0)
+                u++;
+        if(u!=G.M.N-1) {return false;}
+    }
+    return true;
+}
 
 

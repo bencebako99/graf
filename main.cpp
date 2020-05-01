@@ -59,4 +59,22 @@ int main(int, char**) {
         ShortestPath(G3, 0, 6);
     }
 
+    //Testing if graph is full
+    {
+        std::ifstream ifile1("graf3.txt"); 
+        std::ifstream ifile2("graf4.txt");
+        std::stringstream s1, s2;
+        Graf<int> G3, G4;
+        if (ifile1){
+            s1 << ifile1.rdbuf();
+            s1 >> G3;
+        }
+        string s;
+        if (ifile2){
+            s2 << ifile2.rdbuf();
+            s2 >> G4;
+        }
+        if(isfull(G3) || !isfull(G4)) {cout << "Error in reading graph."; return 0;}
+    }
+
 }
