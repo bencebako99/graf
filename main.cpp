@@ -74,7 +74,25 @@ int main(int, char**) {
             s2 << ifile2.rdbuf();
             s2 >> G4;
         }
-        if(isfull(G3) || !isfull(G4)) {cout << "Error in reading graph."; return 0;}
+        if(isfull(G3) || !isfull(G4)) {cout << "Error in graph full algorithm."; return 0;}
+    }
+
+    //Test if graph is fully connected
+    {
+        std::ifstream ifile1("graf3.txt"); 
+        std::ifstream ifile2("graf5.txt");
+        std::stringstream s1, s2;
+        Graf<int> G1, G2;
+        if (ifile1){
+            s1 << ifile1.rdbuf();
+            s1 >> G1;
+        }
+        string s;
+        if (ifile2){
+            s2 << ifile2.rdbuf();
+            s2 >> G2;
+        }
+        if(!isconnected(G1) || isconnected(G2)) {cout << "Error in graph connected algorithm."; return 0;}
     }
 
 }

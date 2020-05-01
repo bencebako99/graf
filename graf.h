@@ -177,4 +177,17 @@ bool isfull(Graf<T> const& G){
     return true;
 }
 
+//Check if graph is fully connected
+template <typename T>
+bool isconnected(Graf<T> G){
+    for(int i=0; i<G.M.N; i++){
+        for(int j=i+1; j< G.M.N; j++){
+            int pred[G.M.N];
+            T dist[G.M.N]; 
+            if (!BFS(G, i, j, pred, dist)) {return false;}  
+        } 
+    }
+    return true;
+}
+
 
