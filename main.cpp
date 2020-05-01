@@ -46,7 +46,7 @@ int main(int, char**) {
         std::cout << G1;
     }
 
-    //Testing shortest path on weighted graph
+    //Testing shortest path on unweighted graph
     {
         std::ifstream ifile1("graf3.txt"); 
         std::stringstream s1;

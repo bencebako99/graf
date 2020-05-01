@@ -45,8 +45,10 @@ istream& operator>>(std::istream& s, Graf<T>& G){
                 stringstream ss1(tmp);
                 int i, j;
                 getline(ss1, tmp, ' ');  i= std::stoi(tmp);
-                getline(ss1, tmp);  j= std::stoi(tmp);
-                G.M(i,j) = 1;
+                getline(ss1, tmp, ' ');  j= std::stoi(tmp);
+                getline(ss1, tmp);
+                G.M(i,j) = std::stoi(tmp);
+                G.M(j,i) = std::stoi(tmp);
             }
             break;
     }
