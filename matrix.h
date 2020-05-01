@@ -244,12 +244,12 @@ istream& operator>>(std::istream& s, Matrix<T>& M){
     getline(s, tmp);
     if(tmp.size()>0){
         stringstream ss(tmp);
-        getline(ss, tmp);  M.N= stoi(tmp);
+        getline(ss, tmp);  M.N= stod(tmp);
         for(int i=0; i<M.N; i++){
             getline(s, tmp);
             stringstream ss1(tmp);
             for(int j=0; j<M.N; j++){
-                getline(ss1, tmp, ' ');  M.data.push_back(stoi(tmp));
+                getline(ss1, tmp, ' ');  M.data.push_back(stod(tmp));
             }
         }
     }

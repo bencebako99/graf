@@ -29,7 +29,7 @@ int main(int, char**) {
     
     //Test addig and removing verteces and edges
     {
-        std::ifstream ifile1("graf1.txt"); //adjacency matrix
+        std::ifstream ifile1("graf1.txt");
         std::stringstream s1;
         Graf<int> G1;
         if (ifile1){
@@ -37,13 +37,26 @@ int main(int, char**) {
             s1 >> G1;
         }
         std::cout << G1;
-        add_edge(G1, 0, 3, false); //add an adge
+        add_edge(G1, 0, 3, false, 1); //add an adge
         std::cout << G1;
         remove_edge(G1, 0, 3, false); //remove the edge
         G1 = add_vertex(G1); //add a vertex
         std::cout << G1;
         G1 = remove_vertex(G1, 0); //remove the first vertex
         std::cout << G1;
+    }
+
+    //Testing shortest path on weighted graph
+    {
+        std::ifstream ifile1("graf3.txt"); 
+        std::stringstream s1;
+        Graf<int> G3;
+        if (ifile1){
+            s1 << ifile1.rdbuf();
+            s1 >> G3;
+        }
+        std::cout << G3;
+        ShortestPath(G3, 0, 6);
     }
 
 }

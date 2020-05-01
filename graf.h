@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <list>
+#include <vector>
 #include "matrix.h"
 
 template <typename T>
@@ -53,10 +55,10 @@ istream& operator>>(std::istream& s, Graf<T>& G){
 
 //Addig and removing verteces and edges
 template <typename T>
-void add_edge(Graf<T>& G, int i, int j, bool isdirected){
+void add_edge(Graf<T>& G, int i, int j, bool isdirected, T weight){
     G.M(i,j) = 1;
     if(isdirected == false)
-        G.M(j, i) = 1;
+        G.M(j, i) = weight;
 }
 
 template <typename T>
@@ -67,7 +69,7 @@ void remove_edge(Graf<T>& G, int i, int j, bool isdirected){
 }
 
 template <typename T>
-Graf<T> add_vertex(Graf<T> & G){
+Graf<T> add_vertex(Graf<T> const& G){
     Graf<T> G1;
     G1.M.N = G.M.N+1;
     for(int i=0; i<G1.M.N; i++)
@@ -101,5 +103,62 @@ Graf<T> remove_vertex(Graf<T> const& G, int x){
                     G1.M(i,j) = G.M(i+1, j+1);            
     return G1;
 }
+
+template <typename T>
+bool BFS(Graf<T> G, int src, int dest, int pred[], int dist[]){
+    list<int> queue;
+    bool visited[G.M.N];
+    for (int i = 0; i < G.M.N; i++) { 
+        visited[i] = false; 
+        dist[i] = INT8_MAX; 
+        pred[i] = -1; 
+    }
+    visited[src] = true; 
+    dist[src] = 0; 
+    queue.push_back(src); 
+    while (!queue.empty()) { 
+        int u = queue.front(); 
+        queue.pop_front(); 
+        for (int i = 0; i < G.M.N; i++) { 
+            if (G.M(u,i)!=0 && visited[i] == false) { 
+                visited[i] = true; 
+                dist[i] = dist[u] + G.M(u,i); 
+                pred[i] = u; 
+                queue.push_back(i); 
+  
+                if (i == dest) 
+                   return true; 
+            } 
+        } 
+    } 
+  
+    return false; 
+}
+
+template <typename T>
+void ShortestPath(Graf<T> G, int src, int dest){
+    int pred[G.M.N];
+    T dist[G.M.N]; 
+    if (BFS(G, src, dest, pred, dist) == false) 
+    { 
+        cout << "Given source and destination"
+             << " are not connected"; 
+        return; 
+    } 
+    vector<int> path; 
+    int crawl = dest; 
+    path.push_back(crawl); 
+    while (pred[crawl] != -1) { 
+        path.push_back(pred[crawl]); 
+        crawl = pred[crawl]; 
+    } 
+    cout << "Shortest path length is : " << dist[dest]; 
+        std::cout << "\nPath is:  "; 
+    for (int i = path.size() - 1; i >= 0; i--) 
+        std::cout << path[i] << " "; 
+    std::cout << endl;
+}
+
+
 
 
