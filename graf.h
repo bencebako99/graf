@@ -9,9 +9,15 @@ class Graf
 {
     private:
         void DFSUtil(int v, bool visited[]);
+        bool iscyclic(int v, bool visited[], int parent);
+        bool BFS(int src, int dest, int pred[], int dist[]);
     public:
         Matrix<T> M;
+        void ShortestPath(int src, int dest);
+        bool isfull();
         void ConnectedComponents();
+        bool istree();
+        bool isconnected();
 };
 
 //Operators
@@ -112,10 +118,10 @@ Graf<T> remove_vertex(Graf<T> const& G, int x){
 
 //Finding shortest path between two nodes
 template <typename T>
-bool BFS(Graf<T> const& G, int src, int dest, int pred[], int dist[]){
+bool Graf<T>::BFS(int src, int dest, int pred[], int dist[]){
     list<int> queue;
-    bool visited[G.M.N];
-    for (int i = 0; i < G.M.N; i++) { 
+    bool visited[M.N];
+    for (int i = 0; i < M.N; i++) { 
         visited[i] = false; 
         dist[i] = INT8_MAX; 
         pred[i] = -1; 
@@ -126,10 +132,10 @@ bool BFS(Graf<T> const& G, int src, int dest, int pred[], int dist[]){
     while (!queue.empty()) { 
         int u = queue.front(); 
         queue.pop_front(); 
-        for (int i = 0; i < G.M.N; i++) { 
-            if (G.M(u,i)!=0 && visited[i] == false) { 
+        for (int i = 0; i < M.N; i++) { 
+            if (M(u,i)!=0 && visited[i] == false) { 
                 visited[i] = true; 
-                dist[i] = dist[u] + G.M(u,i); 
+                dist[i] = dist[u] + M(u,i); 
                 pred[i] = u; 
                 queue.push_back(i); 
   
@@ -143,10 +149,10 @@ bool BFS(Graf<T> const& G, int src, int dest, int pred[], int dist[]){
 }
 
 template <typename T>
-void ShortestPath(Graf<T> const& G, int src, int dest){
-    int pred[G.M.N];
-    T dist[G.M.N]; 
-    if (BFS(G, src, dest, pred, dist) == false) 
+void Graf<T>::ShortestPath(int src, int dest){
+    int pred[M.N];
+    T dist[M.N]; 
+    if (BFS(src, dest, pred, dist) == false) 
     { 
         cout << "Given source and destination"
              << " are not connected"; 
@@ -169,25 +175,25 @@ void ShortestPath(Graf<T> const& G, int src, int dest){
 
 //Checking if graph is full
 template <typename T>
-bool isfull(Graf<T> const& G){
-    for(int i=0; i< G.M.N; i++){
+bool Graf<T>::isfull(){
+    for(int i=0; i< M.N; i++){
         int u=0;
-        for(int j=0; j< G.M.N; j++)
-            if(G.M(i,j)!=0)
+        for(int j=0; j< M.N; j++)
+            if(M(i,j)!=0)
                 u++;
-        if(u!=G.M.N-1) {return false;}
+        if(u!=M.N-1) {return false;}
     }
     return true;
 }
 
 //Check if graph is fully connected
 template <typename T>
-bool isconnected(Graf<T> G){
-    for(int i=0; i<G.M.N; i++){
-        for(int j=i+1; j< G.M.N; j++){
-            int pred[G.M.N];
-            T dist[G.M.N]; 
-            if (!BFS(G, i, j, pred, dist)) {return false;}  
+bool Graf<T>::isconnected(){
+    for(int i=0; i<M.N; i++){
+        for(int j=i+1; j< M.N; j++){
+            int pred[M.N];
+            T dist[M.N]; 
+            if (!BFS(i, j, pred, dist)) {return false;}  
         } 
     }
     return true;
@@ -219,4 +225,24 @@ void Graf<T>::ConnectedComponents(){
     }   
 }
 
+//Check if graph is tree
+template <typename T>
+bool Graf<T>::iscyclic(int v, bool visited[], int parent){
+    visited[v]=true;
+    for(int i=0; i<M.N; i++){
+        if(!visited[i] && M(v,i)!=0)
+            if(iscyclic(i, visited, v)) {return true;}
+        else if(i!=parent){ return true;}
+    }
+    return false;
+}
 
+template <typename T>
+bool Graf<T>::istree(){
+    if(!isconnected()) {return false;}
+    bool visited[M.N];
+    for(int i=0; i< M.N; i++)
+        visited[i]=false;
+    if(iscyclic(0, visited, -1)) { return false;}
+    return true;
+}

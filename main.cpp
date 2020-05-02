@@ -24,7 +24,7 @@ int main(int, char**) {
         }
         for(int i=0; i<G1.M.N; i++)
             for(int j=0; j<G1.M.N; j++)
-                if(G1.M(i,j)!=G2.M(i,j)) {cout << "Error in reading graph."; return 0;} //if the read graphs are not the same, there is an error
+                if(G1.M(i,j)!=G2.M(i,j)) {cout << "Error in reading graph.\n"; return 0;} //if the read graphs are not the same, there is an error
     }
     
     //Test addig and removing verteces and edges
@@ -55,8 +55,7 @@ int main(int, char**) {
             s1 << ifile1.rdbuf();
             s1 >> G3;
         }
-        std::cout << G3;
-        ShortestPath(G3, 0, 6);
+        G3.ShortestPath(0, 6);
     }
 
     //Testing if graph is full
@@ -74,10 +73,10 @@ int main(int, char**) {
             s2 << ifile2.rdbuf();
             s2 >> G4;
         }
-        if(isfull(G3) || !isfull(G4)) {cout << "Error in graph full algorithm."; return 0;}
+        if(G3.isfull() || !G4.isfull()) {cout << "Error in graph full algorithm.\n";}
     }
 
-    //Test if graph is fully connected
+    //Test if graph is fully connected nad find connected components
     {
         std::ifstream ifile1("graf3.txt"); 
         std::ifstream ifile2("graf5.txt");
@@ -92,8 +91,30 @@ int main(int, char**) {
             s2 << ifile2.rdbuf();
             s2 >> G2;
         }
-        if(!isconnected(G1) || isconnected(G2)) {cout << "Error in graph connected algorithm.";}
+        if(!G1.isconnected() || G2.isconnected()) {cout << "Error in graph connected algorithm.\n";}
         else {std::cout << "Connected components of graf5: \n" ;G2.ConnectedComponents();}
     }
 
+    //Test if graph is tree
+    {
+        std::ifstream ifile1("graf3.txt"); 
+        std::ifstream ifile2("graf5.txt");
+        std::ifstream ifile3("graftree.txt");
+        std::stringstream s1, s2, s3;
+        Graf<int> G1, G2, G3;
+        if (ifile1){
+            s1 << ifile1.rdbuf();
+            s1 >> G1;
+        }
+        if (ifile2){
+            s2 << ifile2.rdbuf();
+            s2 >> G2;
+        }
+        if (ifile3){
+            s3 << ifile3.rdbuf();
+            s3 >> G3;
+        }
+        if(G3.istree()) { std::cout << "Problem in tree algorithm.\n";}
+        std::cout << G3.istree();
+    }
 }
