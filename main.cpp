@@ -11,7 +11,7 @@ int main(int, char**) {
     //Testing reading graphs
     {
         std::ifstream ifile1("graf1.txt"); //adjacency matrix
-        std::ifstream ifile2("graf2.txt"); //adjacency list
+        std::ifstream ifile2("graf2.txt"); //list of edges
         std::stringstream s1, s2;
         Graf<int> G1, G2;
         if (ifile1){
@@ -37,9 +37,9 @@ int main(int, char**) {
             s1 >> G1;
         }
         std::cout << G1;
-        add_edge(G1, 0, 3, false, 1); //add an adge
+        G1.add_edge(0, 3, 1); //add an adge
         std::cout << G1;
-        remove_edge(G1, 0, 3, false); //remove the edge
+        G1.remove_edge(0, 3); //remove the edge
         G1 = add_vertex(G1); //add a vertex
         std::cout << G1;
         G1 = remove_vertex(G1, 0); //remove the first vertex
@@ -115,5 +115,24 @@ int main(int, char**) {
             s3 >> G3;
         }
         if(G1.istree() || G2.istree() || !G3.istree()) { std::cout << "Problem in tree algorithm.\n";}
+    }
+
+    //Test disjoint union
+    {
+        std::ifstream ifile1("graf1.txt"); 
+        std::ifstream ifile2("graf3.txt");
+        std::stringstream s1, s2;
+        Graf<int> G1, G2;
+        if (ifile1){
+            s1 << ifile1.rdbuf();
+            s1 >> G1;
+        }
+        string s;
+        if (ifile2){
+            s2 << ifile2.rdbuf();
+            s2 >> G2;
+        }
+        //All 4 versions are done, one is presented here
+        std::cout << "Disjunct union of graf1 and graf 3:\n" << std::move(G1)+std::move(G2);
     }
 }

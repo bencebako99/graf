@@ -9,16 +9,18 @@ class Graf
 {
     private:
         void DFSUtil(int v, bool visited[]);
-        
+        bool iscyclic(int v, bool visited[], int parent);
         bool BFS(int src, int dest, int pred[], int dist[]);
     public:
         Matrix<T> M;
+        void add_edge(int i, int j, T weight);
+        void remove_edge(int i, int j);
         void ShortestPath(int src, int dest);
         bool isfull();
         void ConnectedComponents();
         bool istree();
         bool isconnected();
-        bool iscyclic(int v, bool visited[], int parent);
+
 };
 
 //Operators
@@ -65,19 +67,61 @@ istream& operator>>(std::istream& s, Graf<T>& G){
     return s;
 }
 
+//Operator + as disjoint union
+template <typename T>
+Graf<T> operator+(Graf<T> const& A, Graf<T> const& B){
+    Graf<T> G; G.M.data.resize((A.M.N+B.M.N)*(A.M.N+B.M.N));
+    G.M.N = A.M.N+B.M.N;
+    G.M=A.M;
+    for(int i=0; i<B.M.N; i++){
+        G=add_vertex(G);
+    }
+    for(int i=0; i < B.M.N; i++){
+        for(int j=0; j< B.M.N; j++){
+            if(B.M(i,j) !=0) {G.add_edge(A.M.N+i, A.M.N+j, B.M(i,j));}
+        }
+    }
+    return G;
+}
+template <typename T>
+Graf<T>&& operator+(Graf<T> && A, Graf<T> && B){
+    for(int i=0; i<B.M.N; i++)
+        A=add_vertex(A);
+    for(int i=0; i<B.M.N; i++)
+        for(int j=0; j<B.M.N; j++)
+            if(B.M(i,j)!=0) {A.add_edge(A.M.N-B.M.N+i, A.M.N-B.M.N+j, B.M(i,j));}
+    return std::move(A);
+}
+template <typename T>
+Graf<T>&& operator+(Graf<T> && A, Graf<T> const& B){
+    for(int i=0; i<B.M.N; i++)
+        A=add_vertex(A);
+    for(int i=0; i<B.M.N; i++)
+        for(int j=0; j<B.M.N; j++)
+            if(B.M(i,j)!=0) {A.add_edge(A.M.N+i, A.M.N+j, B.M(i,j));}
+    return std::move(A);
+}
+template <typename T>
+Graf<T>&& operator+(Graf<T> const& A, Graf<T> && B){
+    for(int i=0; i<A.M.N; i++)
+        B=add_vertex(B);
+    for(int i=0; i<A.M.N; i++)
+        for(int j=0; j<A.M.N; j++)
+            if(A.M(i,j)!=0) {B.add_edge(B.M.N+i, B.M.N+j, A.M(i,j));}
+    return std::move(B);
+}
+
 //Addig and removing verteces and edges
 template <typename T>
-void add_edge(Graf<T>& G, int i, int j, bool isdirected, T weight){
-    G.M(i,j) = 1;
-    if(isdirected == false)
-        G.M(j, i) = weight;
+void Graf<T>::add_edge(int i, int j, T weight){
+    M(i,j) = weight;
+    M(j, i) = weight;
 }
 
 template <typename T>
-void remove_edge(Graf<T>& G, int i, int j, bool isdirected){
-    G.M(i,j) = 0;
-    if(isdirected == false)
-        G.M(j, i) = 0;
+void Graf<T>::remove_edge(int i, int j){
+    M(i,j) = 0;
+    M(j, i) = 0;
 }
 
 template <typename T>
