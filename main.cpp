@@ -114,7 +114,6 @@ int main(int, char**) {
             s3 << ifile3.rdbuf();
             s3 >> G3;
         }
-        if(G3.istree()) { std::cout << "Problem in tree algorithm.\n";}
-        std::cout << G3.istree();
+        if(G1.istree() || G2.istree() || !G3.istree()) { std::cout << "Problem in tree algorithm.\n";}
     }
 }

@@ -9,7 +9,7 @@ class Graf
 {
     private:
         void DFSUtil(int v, bool visited[]);
-        bool iscyclic(int v, bool visited[], int parent);
+        
         bool BFS(int src, int dest, int pred[], int dist[]);
     public:
         Matrix<T> M;
@@ -18,6 +18,7 @@ class Graf
         void ConnectedComponents();
         bool istree();
         bool isconnected();
+        bool iscyclic(int v, bool visited[], int parent);
 };
 
 //Operators
@@ -230,9 +231,11 @@ template <typename T>
 bool Graf<T>::iscyclic(int v, bool visited[], int parent){
     visited[v]=true;
     for(int i=0; i<M.N; i++){
-        if(!visited[i] && M(v,i)!=0)
-            if(iscyclic(i, visited, v)) {return true;}
-        else if(i!=parent){ return true;}
+        if(M(v,i)!=0){
+            if(visited[i] && i!=parent) { return true;}
+            if(!visited[i])
+                if(iscyclic(i, visited, v)) {return true;}
+        }
     }
     return false;
 }
