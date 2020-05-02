@@ -92,7 +92,8 @@ int main(int, char**) {
             s2 << ifile2.rdbuf();
             s2 >> G2;
         }
-        if(!isconnected(G1) || isconnected(G2)) {cout << "Error in graph connected algorithm."; return 0;}
+        if(!isconnected(G1) || isconnected(G2)) {cout << "Error in graph connected algorithm.";}
+        else {std::cout << "Connected components of graf5: \n" ;G2.ConnectedComponents();}
     }
 
 }

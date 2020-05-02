@@ -7,8 +7,11 @@
 template <typename T>
 class Graf
 {
-public:
-    Matrix<T> M;
+    private:
+        void DFSUtil(int v, bool visited[]);
+    public:
+        Matrix<T> M;
+        void ConnectedComponents();
 };
 
 //Operators
@@ -188,6 +191,32 @@ bool isconnected(Graf<T> G){
         } 
     }
     return true;
+}
+
+//Find connected parts
+template <typename T>
+void Graf<T>::DFSUtil(int v, bool visited[]){ 
+    visited[v] = true; 
+    cout << v << " "; 
+    for(int i = 0; i<M.N; i++) 
+        if(!visited[i] && M(v, i)!=0) 
+            DFSUtil(i, visited); 
+} 
+
+template <typename T>
+void Graf<T>::ConnectedComponents(){
+    bool visited[M.N];
+    for(int i=0; i<M.N; i++){
+        visited[i]=false;
+    }
+    for (int v=0; v<M.N; v++) 
+    { 
+        if (visited[v] == false) 
+        { 
+            DFSUtil(v, visited); 
+            cout << "\n"; 
+        } 
+    }   
 }
 
 
