@@ -98,7 +98,7 @@ Graf<T>&& operator+(Graf<T> && A, Graf<T> const& B){
         A=add_vertex(A);
     for(int i=0; i<B.M.N; i++)
         for(int j=0; j<B.M.N; j++)
-            if(B.M(i,j)!=0) {A.add_edge(A.M.N+i, A.M.N+j, B.M(i,j));}
+            if(B.M(i,j)!=0) {A.add_edge(A.M.N-B.M.N+i, A.M.N-B.M.N+j, B.M(i,j));}
     return std::move(A);
 }
 template <typename T>
@@ -107,8 +107,31 @@ Graf<T>&& operator+(Graf<T> const& A, Graf<T> && B){
         B=add_vertex(B);
     for(int i=0; i<A.M.N; i++)
         for(int j=0; j<A.M.N; j++)
-            if(A.M(i,j)!=0) {B.add_edge(B.M.N+i, B.M.N+j, A.M(i,j));}
+            if(A.M(i,j)!=0) {B.add_edge(B.M.N-A.M.N+i, B.M.N-A.M.N+j, A.M(i,j));}
     return std::move(B);
+}
+
+//Operator * as Cartesian product
+template <typename T>
+Graf<T> operator*(Graf<T> const& A, Graf<T> const& B){
+    int array[A.M.N*B.M.N][2];
+    int k=0;
+    for(int i=0; i<A.M.N; i++)
+        for(int j=0; j<B.M.N; j++){
+            array[k][0]=i;
+            array[k][1]=j;
+            k++;
+        }
+    Graf<T> G;
+    G.M.N = A.M.N*B.M.N;
+    G.M.data.resize(G.M.N*G.M.N);
+    for(int i=0; i<G.M.N; i++)
+        for(int j=0; j<G.M.N; j++){
+            if(array[i][0]==array[j][0] && B.M(array[i][1], array[j][1])!=0 && i!=j) {G.M(i,j)=1;}
+            else if(array[i][1]==array[j][1] && A.M(array[i][0], array[j][0])!=0 && i!=j) {G.M(i,j)=1;}
+            else {G.M(i,j)=0;}
+        }
+    return G;
 }
 
 //Addig and removing verteces and edges

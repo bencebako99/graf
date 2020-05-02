@@ -133,6 +133,24 @@ int main(int, char**) {
             s2 >> G2;
         }
         //All 4 versions are done, one is presented here
-        std::cout << "Disjunct union of graf1 and graf 3:\n" << std::move(G1)+std::move(G2);
+        std::cout << "Disjoint union of graf1 and graf 3:\n" << std::move(G1)+std::move(G2);
+    }
+
+    //Test Cartesian product
+    {
+        std::ifstream ifile1("graf4.txt"); 
+        std::ifstream ifile2("graf6.txt");
+        std::stringstream s1, s2;
+        Graf<int> G1, G2;
+        if (ifile1){
+            s1 << ifile1.rdbuf();
+            s1 >> G1;
+        }
+        string s;
+        if (ifile2){
+            s2 << ifile2.rdbuf();
+            s2 >> G2;
+        }
+        cout << G1*G2;
     }
 }
