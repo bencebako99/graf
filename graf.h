@@ -134,6 +134,87 @@ Graf<T> operator*(Graf<T> const& A, Graf<T> const& B){
     return G;
 }
 
+template <typename T>
+Graf<T>&& operator*(Graf<T> && A, Graf<T> && B){
+    int array[A.M.N*B.M.N][2];
+    int k=0;
+    for(int i=0; i<A.M.N; i++)
+        for(int j=0; j<B.M.N; j++){
+            array[k][0]=i;
+            array[k][1]=j;
+            k++;
+        }
+    Graf<T> G;
+    G.M.N = A.M.N*B.M.N;
+    G.M.data.resize(G.M.N*G.M.N);
+    for(int i=0; i<G.M.N; i++)
+        for(int j=0; j<G.M.N; j++){
+            if(array[i][0]==array[j][0] && B.M(array[i][1], array[j][1])!=0 && i!=j) {G.M(i,j)=1;}
+            else if(array[i][1]==array[j][1] && A.M(array[i][0], array[j][0])!=0 && i!=j) {G.M(i,j)=1;}
+            else {G.M(i,j)=0;}
+        }
+    A.M.data.resize(G.M.N*G.M.N);
+    A.M.N=G.M.N;
+    for(int i=0; i<G.M.N; i++)
+        for(int j=0; j<G.M.N; j++)
+            A.M(i,j) = G.M(i,j);
+    return std::move(A);
+}
+
+template <typename T>
+Graf<T>&& operator*(Graf<T> && A, Graf<T> const& B){
+    int array[A.M.N*B.M.N][2];
+    int k=0;
+    for(int i=0; i<A.M.N; i++)
+        for(int j=0; j<B.M.N; j++){
+            array[k][0]=i;
+            array[k][1]=j;
+            k++;
+        }
+    Graf<T> G;
+    G.M.N = A.M.N*B.M.N;
+    G.M.data.resize(G.M.N*G.M.N);
+    for(int i=0; i<G.M.N; i++)
+        for(int j=0; j<G.M.N; j++){
+            if(array[i][0]==array[j][0] && B.M(array[i][1], array[j][1])!=0 && i!=j) {G.M(i,j)=1;}
+            else if(array[i][1]==array[j][1] && A.M(array[i][0], array[j][0])!=0 && i!=j) {G.M(i,j)=1;}
+            else {G.M(i,j)=0;}
+        }
+    A.M.data.resize(G.M.N*G.M.N);
+    A.M.N=G.M.N;
+    for(int i=0; i<G.M.N; i++)
+        for(int j=0; j<G.M.N; j++)
+            A.M(i,j) = G.M(i,j);
+    return std::move(A);
+}
+
+template <typename T>
+Graf<T>&& operator*(Graf<T> const& A, Graf<T> && B){
+    int array[A.M.N*B.M.N][2];
+    int k=0;
+    for(int i=0; i<A.M.N; i++)
+        for(int j=0; j<B.M.N; j++){
+            array[k][0]=i;
+            array[k][1]=j;
+            k++;
+        }
+    Graf<T> G;
+    G.M.N = A.M.N*B.M.N;
+    G.M.data.resize(G.M.N*G.M.N);
+    for(int i=0; i<G.M.N; i++)
+        for(int j=0; j<G.M.N; j++){
+            if(array[i][0]==array[j][0] && B.M(array[i][1], array[j][1])!=0 && i!=j) {G.M(i,j)=1;}
+            else if(array[i][1]==array[j][1] && A.M(array[i][0], array[j][0])!=0 && i!=j) {G.M(i,j)=1;}
+            else {G.M(i,j)=0;}
+        }
+    B.M.data.resize(G.M.N*G.M.N);
+    B.M.N=G.M.N;
+    for(int i=0; i<G.M.N; i++)
+        for(int j=0; j<G.M.N; j++)
+            B.M(i,j) = G.M(i,j);
+    return std::move(B);
+}
+
 //Addig and removing verteces and edges
 template <typename T>
 void Graf<T>::add_edge(int i, int j, T weight){

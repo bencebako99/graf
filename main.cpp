@@ -133,7 +133,7 @@ int main(int, char**) {
             s2 >> G2;
         }
         //All 4 versions are done, one is presented here
-        std::cout << "Disjoint union of graf1 and graf 3:\n" << std::move(G1)+std::move(G2);
+        std::cout << "Disjoint union of graf1 and graf3:\n" << std::move(G1)+std::move(G2);
     }
 
     //Test Cartesian product
@@ -151,6 +151,7 @@ int main(int, char**) {
             s2 << ifile2.rdbuf();
             s2 >> G2;
         }
-        cout << G1*G2;
+        //All 4 versions done, one presented
+        cout << "Cartesian product of graf4 and graf6:\n" << G1*std::move(G2);
     }
 }
