@@ -255,7 +255,7 @@ Graf<T> remove_vertex(Graf<T> const& G, int x){
 
 //Finding shortest path between two nodes
 template <typename T>
-bool Graf<T>::BFS(int src, int dest, int pred[], int dist[]){
+bool Graf<T>::BFS(int src, int dest, int* pred, int* dist){
     list<int> queue;
     bool* visited = new bool[M.N];
     for (int i = 0; i < M.N; i++) { 
@@ -276,13 +276,13 @@ bool Graf<T>::BFS(int src, int dest, int pred[], int dist[]){
                 pred[i] = u; 
                 queue.push_back(i); 
   
-                if (i == dest)
+                if (i == dest) {
                     delete[] visited;
-                    return true; 
+                   return true; }
             } 
         } 
     } 
-    delete[] visited;
+  delete[] visited;
     return false; 
 }
 
@@ -294,7 +294,8 @@ void Graf<T>::ShortestPath(int src, int dest){
     { 
         cout << "Given source and destination"
              << " are not connected"; 
-        delete[] pred, dist;
+        delete[] pred;
+        delete[] dist;
         return; 
     } 
     vector<int> path; 
@@ -309,7 +310,8 @@ void Graf<T>::ShortestPath(int src, int dest){
     for (int i = path.size() - 1; i >= 0; i--) 
         std::cout << path[i] << " "; 
     std::cout << endl;
-    delete[] pred, dist;
+    delete[] pred;
+    delete[] dist;
 }
 
 
@@ -331,9 +333,11 @@ template <typename T>
 bool Graf<T>::isconnected(){
     for(int i=0; i<M.N; i++){
         for(int j=i+1; j< M.N; j++){
-            int pred[M.N];
-            T dist[M.N]; 
-            if (!BFS(i, j, pred, dist)) {return false;}  
+            int* pred = new int[M.N];
+            T* dist = new T[M.N]; 
+            if (!BFS(i, j, pred, dist)) { delete[] pred; delete[] dist; return false;}  
+            delete[] pred;
+            delete[] dist;
         } 
     }
     return true;
