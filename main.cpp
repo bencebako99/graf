@@ -45,7 +45,7 @@ int main(int, char**) {
         G1 = add_vertex(G1); //add a vertex
         std::cout << "We add a vertex: \n" << G1;
         G1 = remove_vertex(G1, 0); //remove the first vertex
-        std::cout << "Than we remove the first one" << G1;
+        std::cout << "Than we remove the first one:\n" << G1;
     }
 
     //Testing shortest path on unweighted graph
@@ -57,7 +57,7 @@ int main(int, char**) {
             s1 << ifile1.rdbuf();
             s1 >> G3;
         }
-        cout << "To test the shortest path algorithm, we consider graf3\n";
+        cout << "To test the shortest path algorithm, we consider graf3.\n";
         G3.ShortestPath(0, 6);
     }
 
