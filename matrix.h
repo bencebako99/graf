@@ -17,6 +17,7 @@ struct Matrix
 {
     int N;
     std::vector<T> data;
+    ~Matrix(){};
 
     //Subscription operator
     T& operator()(int i, int j) {return data[(i*N)+j]; }

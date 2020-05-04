@@ -24,7 +24,7 @@ int main(int, char**) {
         }
         for(int i=0; i<G1.M.N; i++)
             for(int j=0; j<G1.M.N; j++)
-                if(G1.M(i,j)!=G2.M(i,j)) {cout << "Error in reading graph.\n"; return 0;} //if the read graphs are not the same, there is an error
+                if(G1.M(i,j)!=G2.M(i,j)) {cout << "Error in reading graph.\n"; return 0;} //if the graphs read are not the same, there is an error
     }
     
     //Test addig and removing verteces and edges
@@ -36,14 +36,16 @@ int main(int, char**) {
             s1 << ifile1.rdbuf();
             s1 >> G1;
         }
+        std::cout << "Here's our graph: \n";
         std::cout << G1;
         G1.add_edge(0, 3, 1); //add an adge
-        std::cout << G1;
+        std::cout << "We add an edge between 0 and 3: \n" << G1;
         G1.remove_edge(0, 3); //remove the edge
+        std::cout << "We remove the edge added: \n" << G1;
         G1 = add_vertex(G1); //add a vertex
-        std::cout << G1;
+        std::cout << "We add a vertex: \n" << G1;
         G1 = remove_vertex(G1, 0); //remove the first vertex
-        std::cout << G1;
+        std::cout << "Than we remove the first one" << G1;
     }
 
     //Testing shortest path on unweighted graph
@@ -55,6 +57,7 @@ int main(int, char**) {
             s1 << ifile1.rdbuf();
             s1 >> G3;
         }
+        cout << "To test the shortest path algorithm, we consider graf3\n";
         G3.ShortestPath(0, 6);
     }
 
@@ -76,7 +79,7 @@ int main(int, char**) {
         if(G3.isfull() || !G4.isfull()) {cout << "Error in graph full algorithm.\n";}
     }
 
-    //Test if graph is fully connected nad find connected components
+    //Test if graph is fully connected and find connected components
     {
         std::ifstream ifile1("graf3.txt"); 
         std::ifstream ifile2("graf5.txt");

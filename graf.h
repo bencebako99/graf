@@ -13,6 +13,7 @@ class Graf
         bool BFS(int src, int dest, int pred[], int dist[]);
     public:
         Matrix<T> M;
+        ~Graf(){};
         void add_edge(int i, int j, T weight);
         void remove_edge(int i, int j);
         void ShortestPath(int src, int dest);
@@ -305,7 +306,7 @@ void Graf<T>::ShortestPath(int src, int dest){
         path.push_back(pred[crawl]); 
         crawl = pred[crawl]; 
     } 
-    cout << "Shortest path length is : " << dist[dest]; 
+    cout << "Shortest path length between " << src << " and " << dest <<  " is: " << dist[dest]; 
         std::cout << "\nPath is:  "; 
     for (int i = path.size() - 1; i >= 0; i--) 
         std::cout << path[i] << " "; 
