@@ -114,13 +114,10 @@ Graf<T>&& operator+(Graf<T> const& A, Graf<T> && B){
 //Operator * as Cartesian product
 template <typename T>
 Graf<T> operator*(Graf<T> const& A, Graf<T> const& B){
-    int array[A.M.N*B.M.N][2];
-    int k=0;
+    vector<vector<int>> array;
     for(int i=0; i<A.M.N; i++)
         for(int j=0; j<B.M.N; j++){
-            array[k][0]=i;
-            array[k][1]=j;
-            k++;
+            array.push_back({i,j});
         }
     Graf<T> G;
     G.M.N = A.M.N*B.M.N;
@@ -136,13 +133,10 @@ Graf<T> operator*(Graf<T> const& A, Graf<T> const& B){
 
 template <typename T>
 Graf<T>&& operator*(Graf<T> && A, Graf<T> && B){
-    int array[A.M.N*B.M.N][2];
-    int k=0;
+    vector<vector<int>> array;
     for(int i=0; i<A.M.N; i++)
         for(int j=0; j<B.M.N; j++){
-            array[k][0]=i;
-            array[k][1]=j;
-            k++;
+            array.push_back({i,j});
         }
     Graf<T> G;
     G.M.N = A.M.N*B.M.N;
@@ -163,13 +157,10 @@ Graf<T>&& operator*(Graf<T> && A, Graf<T> && B){
 
 template <typename T>
 Graf<T>&& operator*(Graf<T> && A, Graf<T> const& B){
-    int array[A.M.N*B.M.N][2];
-    int k=0;
+    vector<vector<int>> array;
     for(int i=0; i<A.M.N; i++)
         for(int j=0; j<B.M.N; j++){
-            array[k][0]=i;
-            array[k][1]=j;
-            k++;
+            array.push_back({i,j});
         }
     Graf<T> G;
     G.M.N = A.M.N*B.M.N;
@@ -190,13 +181,10 @@ Graf<T>&& operator*(Graf<T> && A, Graf<T> const& B){
 
 template <typename T>
 Graf<T>&& operator*(Graf<T> const& A, Graf<T> && B){
-    int array[A.M.N*B.M.N][2];
-    int k=0;
+    vector<vector<int>> array;
     for(int i=0; i<A.M.N; i++)
         for(int j=0; j<B.M.N; j++){
-            array[k][0]=i;
-            array[k][1]=j;
-            k++;
+            array.push_back({i,j});
         }
     Graf<T> G;
     G.M.N = A.M.N*B.M.N;
@@ -269,7 +257,7 @@ Graf<T> remove_vertex(Graf<T> const& G, int x){
 template <typename T>
 bool Graf<T>::BFS(int src, int dest, int pred[], int dist[]){
     list<int> queue;
-    bool visited[M.N];
+    bool* visited = new bool[M.N];
     for (int i = 0; i < M.N; i++) { 
         visited[i] = false; 
         dist[i] = INT8_MAX; 
@@ -288,23 +276,25 @@ bool Graf<T>::BFS(int src, int dest, int pred[], int dist[]){
                 pred[i] = u; 
                 queue.push_back(i); 
   
-                if (i == dest) 
-                   return true; 
+                if (i == dest)
+                    delete[] visited;
+                    return true; 
             } 
         } 
     } 
-  
+    delete[] visited;
     return false; 
 }
 
 template <typename T>
 void Graf<T>::ShortestPath(int src, int dest){
-    int pred[M.N];
-    T dist[M.N]; 
+    int* pred = new int[M.N];
+    T* dist = new T[M.N]; 
     if (BFS(src, dest, pred, dist) == false) 
     { 
         cout << "Given source and destination"
              << " are not connected"; 
+        delete[] pred, dist;
         return; 
     } 
     vector<int> path; 
@@ -319,6 +309,7 @@ void Graf<T>::ShortestPath(int src, int dest){
     for (int i = path.size() - 1; i >= 0; i--) 
         std::cout << path[i] << " "; 
     std::cout << endl;
+    delete[] pred, dist;
 }
 
 
@@ -360,7 +351,7 @@ void Graf<T>::DFSUtil(int v, bool visited[]){
 
 template <typename T>
 void Graf<T>::ConnectedComponents(){
-    bool visited[M.N];
+    bool* visited = new bool[M.N];
     for(int i=0; i<M.N; i++){
         visited[i]=false;
     }
@@ -371,7 +362,8 @@ void Graf<T>::ConnectedComponents(){
             DFSUtil(v, visited); 
             cout << "\n"; 
         } 
-    }   
+    } 
+    delete[] visited;  
 }
 
 //Check if graph is tree
@@ -391,9 +383,10 @@ bool Graf<T>::iscyclic(int v, bool visited[], int parent){
 template <typename T>
 bool Graf<T>::istree(){
     if(!isconnected()) {return false;}
-    bool visited[M.N];
+    bool* visited = new bool[M.N];
     for(int i=0; i< M.N; i++)
         visited[i]=false;
     if(iscyclic(0, visited, -1)) { return false;}
+    delete[] visited;
     return true;
 }
